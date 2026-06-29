@@ -1,4 +1,6 @@
 const header = document.querySelector("[data-header]");
+const navToggle = document.querySelector("[data-nav-toggle]");
+const mainNav = document.querySelector("[data-main-nav]");
 const revealItems = document.querySelectorAll(".reveal, .service-grid article");
 const skills = document.querySelectorAll(".skill");
 const filterButtons = document.querySelectorAll(".filter-btn");
@@ -15,6 +17,22 @@ function syncHeader() {
 
 window.addEventListener("scroll", syncHeader, { passive: true });
 syncHeader();
+
+function closeNav() {
+  header?.classList.remove("is-nav-open");
+  navToggle?.setAttribute("aria-expanded", "false");
+  navToggle?.setAttribute("aria-label", "Apri menu");
+}
+
+navToggle?.addEventListener("click", () => {
+  const isOpen = header?.classList.toggle("is-nav-open");
+  navToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+  navToggle.setAttribute("aria-label", isOpen ? "Chiudi menu" : "Apri menu");
+});
+
+mainNav?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", closeNav);
+});
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
